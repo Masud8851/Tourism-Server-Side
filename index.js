@@ -21,40 +21,40 @@ const client = new MongoClient(uri, {
 async function run() {
 	try {
 		await client.connect();
-		const porijanDb = client.db("Tourism");
-		const pakageCollection = porijanDb.collection("pakages");
-		const OrderCollection = porijanDb.collection("orders");
+		const tourismDb = client.db("Tourism");
+		const pakageCollection = tourismDb.collection("pakages");
+		const OrderCollection = tourismDb.collection("orders");
 
-		// Booking
+		// Add Order
 		app.post("/addorder", async (req, res) => {
 			const result = await OrderCollection.insertOne(req.body);
 			res.send(result);
-			console.log("One Order added Successfully");
+			// console.log("Successfully ordered!");
 		});
 
-		// Insert a myBookings
+		// Insert a booking
 		app.post("/myBooking", async (req, res) => {
 			const result = await OrderCollection.insertOne(req.body);
 			res.send(result);
-			console.log("One myBooking added Successfully");
+			// console.log("Booking added Successfully!");
 		});
 
-		// Get My myBookings
+		// My myBookings
 		app.get("/myBooking/:email", async (req, res) => {
 			const result = await OrderCollection.find({
 				email: req.params.email,
 			}).toArray();
 			res.send(result);
-			console.log("My myBookings Send Successfully", result);
+			console.log("Bookings send successfully", result);
 		});
 
-		// Get My myBookings
+		// Delete Bookings
 		app.delete("/myBooking/:id", async (req, res) => {
 			const result = await OrderCollection.deleteOne({
 				_id: ObjectId(req.params.id),
 			});
 			res.send(result);
-			console.log("My myBookings Delete Successfully", result);
+			console.log("Delete Successfully", result);
 		});
 
 		// Update Order Status
@@ -72,7 +72,7 @@ async function run() {
 				options
 			);
 			res.send(result);
-			console.log("Status Update Successfull", result);
+			console.log("Update Successfully", result);
 		});
 
 		// Get All Bookings
